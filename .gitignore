@@ -1,0 +1,11 @@
+.drivesafe/
+.venv/
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+.env
+.env.local
+node.exe
+ui_screenshot.png
+exports/
+dashcam_accident.mp4

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drivesafe-app
+    ports:
+      - "8501:8501"
+    environment:
+      - DRIVESAFE_MONGO_URI=mongodb://mongodb:27017
+      - DRIVESAFE_MONGO_DB=drivesafe
+      - DRIVESAFE_OLLAMA_URL=http://ollama:11434
+      - DRIVESAFE_DATA_DIR=/app/data
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    volumes:
+      - drivesafe_data:/app/data
+    depends_on:
+      - mongodb
+      - ollama
+    networks:
+      - drivesafe-net
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7.0
+    container_name: drivesafe-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - drivesafe-net
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: drivesafe-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - drivesafe-net
+    restart: unless-stopped
+
+volumes:
+  drivesafe_data:
+  mongo_data:
+  ollama_models:
+
+networks:
+  drivesafe-net:
+    driver: bridge
