@@ -12,6 +12,10 @@ except ImportError:
 
 APP_ROOT = Path(__file__).resolve().parents[1]
 DATA_ROOT = Path(os.environ.get("DRIVESAFE_DATA_DIR", Path.home() / ".drivesafe"))
+try:
+    DATA_ROOT.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass
 OLLAMA_URL = os.environ.get("DRIVESAFE_OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
 _ollama_host = urlsplit(OLLAMA_URL).hostname or "localhost"
 try:

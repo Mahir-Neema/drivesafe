@@ -637,7 +637,9 @@ with left:
                 st.session_state["session_id"] = session_id
                 st.session_state["source_path"] = str(source_path)
             else:
+                ensure_data_root()
                 incoming_path = DATA_ROOT / f".incoming-{session_id}{suffix}"
+                incoming_path.parent.mkdir(parents=True, exist_ok=True)
                 try:
                     incoming_path.write_bytes(uploaded.getvalue())
                     duration, _, _ = get_video_info(incoming_path)
