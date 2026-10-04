@@ -1,0 +1,36 @@
+# ===========================================================================
+# Render Blueprint Specification for DriveSafe
+# Docs: https://render.com/docs/blueprint-spec
+# ===========================================================================
+
+services:
+  - type: web
+    name: drivesafe
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    region: oregon
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: PORT
+        value: 8501
+      - key: STREAMLIT_SERVER_PORT
+        value: 8501
+      - key: STREAMLIT_SERVER_ADDRESS
+        value: 0.0.0.0
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: "true"
+      - key: DRIVESAFE_DATA_DIR
+        value: /tmp/drivesafe
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_CLOUD_PROJECT
+        value: 282833341683
+      - key: GOOGLE_CLOUD_LOCATION
+        value: us-central1
+      - key: GOOGLE_CLOUD_MODEL
+        value: gemma-4-26b-a4b-it
+      - key: DRIVESAFE_MONGO_URI
+        sync: false
+      - key: DRIVESAFE_MONGO_DB
+        value: drivesafe
